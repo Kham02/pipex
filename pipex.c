@@ -6,7 +6,7 @@
 /*   By: estrong <estrong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 21:08:03 by estrong           #+#    #+#             */
-/*   Updated: 2021/12/13 10:13:30 by estrong          ###   ########.fr       */
+/*   Updated: 2021/12/13 16:14:12 by estrong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,47 +14,38 @@
 
 static void	child1_process(int fd1, int *end, char **argv, char **envp)
 {
-	if (dup2(end[1], STDOUT_FILENO) < 0)
-		return (perror("infile: "));
-	if (dup2(fd1, STDIN_FILENO) < 0)
-		return (perror(""));
+	dup2(end[1], STDOUT_FILENO) < 0;
+	dup2(fd1, STDIN_FILENO) < 0;
 	close(end[0]);							// закрываем конец канала
 	close(end[1]);
 	close(fd1);								// закрываем файл
-	
 }
 
 static void	child2_process(int fd1, int *end, char **argv, char **envp)
 {
-	if (dup2(end[0], STDOUT_FILENO) < 0)
-		return (perror("outfile: "));
-	if (dup2(fd1, STDIN_FILENO) < 0)
-		return (perror(""));
+	dup2(end[0], STDOUT_FILENO) < 0;
+	dup2(fd1, STDIN_FILENO) < 0;
 	close(end[1]);
 	close(end[0]);
 	close(fd1);
-	
 }
 
-// static void	pars(int fd2, char **argv, char **envp)
-// {
-// 	char	*PATH_from_envp;
-// 	char	**mypaths;
-// 	char	**mycmdargs;
-// 	int		i;
-// 	char	*cmd;
+static void	path(int fd2, char **argv, char **envp)
+{
+	char	*puth;
+	char	**mypaths;
+	int		i;
+	char	*pat;
 
-// 	i = -1;
-// 	PATH_from_envp = ft_substr(envp ....);
-// 	mypaths = ft_split(PATH_from_envp, ":");
-// 	while (mypaths[++i])
-// {
-// 	cmd = ft_join(mypaths[i], ag[2]);
-// 	execve(cmd, mycmdargs, envp);
-// 	free(cmd);
-// }
-// return (EXIT_FAILURE);
-// }
+	i = 0;
+	while (ft_strnstr(envp[i], "PATH", 4) == 0)
+		i++;
+	if (ft_strnstr(envp[i], "PATH", 4) != 0)
+		puth = ft_substr(&envp[i]);
+	execution(puth, argv[2], envp);
+	
+	
+}
 
 void	pipex(int fd1, int fd2, char **argv, char **envp)
 {
@@ -87,7 +78,7 @@ int main	(int argc, char **argv, char **envp)
 	if (argc != 5)
 		return (0);
 	fd1 = open("outfile.txt", O_RDWR);
-	fd2 = open("infile.txt", O_RDWR);
+	fd2 = open("infile.txt", O_RDWR, O_TRUNC);
 	if (fd1 < 0 || fd2 < 0)
 		return (-1);
 	pipex(fd1, fd2, argv, envp);

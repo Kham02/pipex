@@ -6,7 +6,7 @@
 /*   By: estrong <estrong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 23:44:31 by estrong           #+#    #+#             */
-/*   Updated: 2021/12/11 23:44:34 by estrong          ###   ########.fr       */
+/*   Updated: 2021/12/13 16:14:26 by estrong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 
-void	pipex(int f1, int f2);
+void	pipex(int fd1, int fd2, char **argv, char **envp);
+int		get_next_line(char **line);
+void	execution(char *puth, char **argv, char **envp);
 
 #endif
