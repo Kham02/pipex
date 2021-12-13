@@ -6,7 +6,7 @@
 #    By: estrong <estrong@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/12/10 23:08:01 by estrong           #+#    #+#              #
-#    Updated: 2021/12/11 02:20:59 by estrong          ###   ########.fr        #
+#    Updated: 2021/12/12 00:06:24 by estrong          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ OBJ		=	pipex.c
 
 SRCS	=	$(patsubst %.c,%.o,$(OBJ))
 
-LIB		=	libft
+LIB_H	=	LIB/libft.h
 
 HEADER	=	pipex.h
 
