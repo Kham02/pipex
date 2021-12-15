@@ -12,6 +12,12 @@
 
 #include "pipex.h"
 
+void error(char *s)
+{
+	return (perror(s));
+	exit(EXIT_FAILURE);						// завершение работы с индикацией ошибки.
+}
+
 int	get_next_line(char **line)
 {
 	int	i;
@@ -31,7 +37,28 @@ int	get_next_line(char **line)
 	return (count_read);
 }
 
-void	execution(char *puth, char **argv, char **envp)
+void	execution(char **argv, char **envp)
 {
+	char	**cmd;
+
+	cmd = ft_split(argv, ' ');
+	execve(putch(argv, envp), cmd, envp);
+}
+
+void	path(char **cmd, char **envp)
+{
+	char	*puth;
+	char	**paths;
+	char	*pat;
+	int		i;		
+
+	i = 0;
+	while (ft_strnstr(envp[i], "PATH", 4) == 0)
+		i++;
+	if (ft_strnstr(envp[i], "PATH", 4) != 0)
+		puth = ft_substr(&envp[i]);
+	execution(puth, argv[2], envp);
+	if (access(path, F_OK) == 0)
+			return (path);
 	
 }

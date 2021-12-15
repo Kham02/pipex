@@ -19,6 +19,7 @@ static void	child1_process(int fd1, int *end, char **argv, char **envp)
 	close(end[0]);							// закрываем конец канала
 	close(end[1]);
 	close(fd1);								// закрываем файл
+	execution(argv[2], envp);
 }
 
 static void	child2_process(int fd1, int *end, char **argv, char **envp)
@@ -28,40 +29,25 @@ static void	child2_process(int fd1, int *end, char **argv, char **envp)
 	close(end[1]);
 	close(end[0]);
 	close(fd1);
-}
-
-static void	path(int fd2, char **argv, char **envp)
-{
-	char	*puth;
-	char	**mypaths;
-	int		i;
-	char	*pat;
-
-	i = 0;
-	while (ft_strnstr(envp[i], "PATH", 4) == 0)
-		i++;
-	if (ft_strnstr(envp[i], "PATH", 4) != 0)
-		puth = ft_substr(&envp[i]);
-	execution(puth, argv[2], envp);
-	
-	
+	execution(argv[3], envp);
 }
 
 void	pipex(int fd1, int fd2, char **argv, char **envp)
 {
 	int	end[2];
-	pid_t child1;							//тип данных - целое число со знаком, который способен представить ID процесса.
+	pid_t child1;								//тип данных - целое число со знаком, который способен представить ID процесса.
 	pid_t child2;
 
-	pipe(end);								// создание канала
-	child1 = fork();						// делим процесс на два подпроцесса
-	if (child1 < 0)							// в случае ошибки fork вернет -1
-		return (perror("Fork: "));
-	if (child1 == 0)						// возвращает 0, если мы находимся в дочернем процессе
+	if (pipe(end) == -1)						// создание канала
+		error("pipe: ");
+	child1 = fork();							// делим процесс на два подпроцесса
+	if (child1 < 0)								// в случае ошибки fork вернет -1
+		error("fork: ");
+	if (child1 == 0)							// возвращает 0, если мы находимся в дочернем процессе
 		child1_process(fd1, end, argv, envp);
 	child2 = fork();
 	if (child2 < 0)
-		return (perror("Fork: "));
+		error("fork: ");
 	if (child2 == 0)
 		child2_process(fd2, end, argv, envp);
 	close(end[0]);
