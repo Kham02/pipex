@@ -22,7 +22,6 @@
 #include <sys/wait.h>
 
 void	pipex(int fd1, int fd2, char **argv, char **envp);
-int		get_next_line(char **line);
 void	execution(char **argv, char **envp);
 void	path(int fd2, char **argv, char **envp);
 void error(char *s);
