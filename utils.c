@@ -47,7 +47,7 @@ void	execution(char **argv, char **envp)
 
 void	path(char **cmd, char **envp)
 {
-	char	*puth;
+	char	*pathh;
 	char	**paths;
 	char	*pat;
 	int		i;		
@@ -56,9 +56,16 @@ void	path(char **cmd, char **envp)
 	while (ft_strnstr(envp[i], "PATH", 4) == 0)
 		i++;
 	if (ft_strnstr(envp[i], "PATH", 4) != 0)
-		puth = ft_substr(&envp[i]);
-	execution(puth, argv[2], envp);
-	if (access(path, F_OK) == 0)
-			return (path);
-	
+		paths = ft_strdup(envp[i] + 5);
+	i = 0;
+	while (puth[i])
+	{
+		pat = ft_strjoin(paths[i], "/");
+		pathh = ft_strjoin(pat, cmd);
+		free(pat);
+		if (access(path, F_OK) == 0)
+				return (path);
+		i++;
+	}
+	return (0);
 }
