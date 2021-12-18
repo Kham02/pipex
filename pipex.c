@@ -63,8 +63,8 @@ int main	(int argc, char **argv, char **envp)
 
 	if (argc != 5)
 		return (0);
-	fd1 = open("outfile.txt", O_RDWR);
-	fd2 = open("infile.txt", O_RDWR, O_TRUNC);
+	fd1 = open("outfile.txt",  O_RDONLY);
+	fd2 = open("infile.txt", O_WRONLY | O_CREAT | O_TRUNC);
 	if (fd1 < 0 || fd2 < 0)
 		return (-1);
 	pipex(fd1, fd2, argv, envp);

@@ -18,25 +18,6 @@ void error(char *s)
 	exit(EXIT_FAILURE);						// завершение работы с индикацией ошибки.
 }
 
-int	get_next_line(char **line)
-{
-	int	i;
-	int	count_read;
-
-	i = 0;
-	*line = (char *)malloc(1000);
-	if (!*line)
-		return (-1);
-	while ((count_read = read(0, *line + i, 1)) > 0)
-	{
-		if ((*line)[i] == '\n')
-			break ;
-		i++;
-	}
-	(*line)[i] = '\0';
-	return (count_read);
-}
-
 void	execution(char **argv, char **envp)
 {
 	char	**cmd;
