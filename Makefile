@@ -5,40 +5,40 @@
 #                                                     +:+ +:+         +:+      #
 #    By: estrong <estrong@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2021/12/10 23:08:01 by estrong           #+#    #+#              #
-#    Updated: 2021/12/13 16:07:24 by estrong          ###   ########.fr        #
+#    Created: 2022/01/07 19:06:57 by estrong           #+#    #+#              #
+#    Updated: 2022/01/07 19:28:50 by estrong          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	pipex
 
-OBJ		=	pipex.c	utils.c
+OBJ		=	pipex.c		utils.c
 
 SRCS	=	$(patsubst %.c,%.o,$(OBJ))
 
 HEADER	=	pipex.h
 
-LIB_DIR		=	libft
+LFT		=	libft/libft.a
 
 CC		=	gcc
 
 FLAGS	=	-Wall -Wextra -Werror -I$(HEADER)
 
+.PHONY :	all clean fclean re
+
 all :	$(NAME)
 
-$(NAME) :	$(OBJ) $(HEADER)
-				@make -C $(LIB_DIR)
-				@$(CC) $(FLAGS) $(HEADER) $(LIB_DIR)/libft.a $(OBJ) -o $(NAME)
+$(NAME):	$(OBJ) $(HEADER)
+	@make re -C ./libft
+	$(CC) $(OBJ) $(NAME)
 
-%.o :		%.c $(HEADER)
-				$(CC) $(FLAGS) -c $< -o $@ 
+%.o: %.c $(HEADER)
+	$(CC) $(FLAGS)  -c $< -o $@
 
-clean :		@make clean -C $(LIB_DIR)
+clean :		#@make clean -C $(LFT)
 				rm -rf $(SRCS)
 
-fclean :	@make fclean -C $(LIB_DIR)
+fclean :	#@make fclean -C $(LFT)
 				rm -rf $(NAME)
 
 re :		fclean all
-
-.PHONY :	all clean fclean re

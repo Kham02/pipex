@@ -6,7 +6,7 @@
 /*   By: estrong <estrong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 21:08:03 by estrong           #+#    #+#             */
-/*   Updated: 2021/12/13 16:14:12 by estrong          ###   ########.fr       */
+/*   Updated: 2022/01/07 19:28:18 by estrong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ void	pipex(int fd1, int fd2, char **argv, char **envp)
 	waitid(child2, NULL, 0);
 }
 
-int main	(int argc, char **argv, char **envp)
+int main(int argc, char **argv, char **envp)
 {
 	int	fd1;
 	int	fd2;
@@ -68,5 +68,5 @@ int main	(int argc, char **argv, char **envp)
 	if (fd1 < 0 || fd2 < 0)
 		return (-1);
 	pipex(fd1, fd2, argv, envp);
-	return (0);
+	return(0);
 }
