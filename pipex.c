@@ -6,7 +6,7 @@
 /*   By: estrong <estrong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 21:08:03 by estrong           #+#    #+#             */
-/*   Updated: 2022/01/07 19:28:18 by estrong          ###   ########.fr       */
+/*   Updated: 2022/01/17 18:20:07 by estrong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,22 +14,26 @@
 
 static void	child1_process(int fd1, int *end, char **argv, char **envp)
 {
-	dup2(end[1], STDOUT_FILENO) < 0;
-	dup2(fd1, STDIN_FILENO) < 0;
+	if (dup2(end[1], STDOUT_FILENO) < 0)
+		error("dup: ");
+	if (dup2(fd1, STDIN_FILENO) < 0)
+		error("dup: ");
 	close(end[0]);							// закрываем конец канала
 	close(end[1]);
 	close(fd1);								// закрываем файл
-	execution(argv[2], envp);
+	execution(&argv[2], envp);
 }
 
 static void	child2_process(int fd1, int *end, char **argv, char **envp)
 {
-	dup2(end[0], STDOUT_FILENO) < 0;
-	dup2(fd1, STDIN_FILENO) < 0;
+	if (dup2(end[0], STDOUT_FILENO) < 0)
+		error("dup: ");
+	if (dup2(fd1, STDIN_FILENO) < 0)
+		error("dup: ");
 	close(end[1]);
 	close(end[0]);
 	close(fd1);
-	execution(argv[3], envp);
+	execution(&argv[3], envp);
 }
 
 void	pipex(int fd1, int fd2, char **argv, char **envp)
@@ -52,8 +56,8 @@ void	pipex(int fd1, int fd2, char **argv, char **envp)
 		child2_process(fd2, end, argv, envp);
 	close(end[0]);
 	close(end[1]);
-	waitid(child1, NULL, 0);
-	waitid(child2, NULL, 0);
+	waitpid(child1, NULL, 0);
+	waitpid(child2, NULL, 0);
 }
 
 int main(int argc, char **argv, char **envp)
@@ -63,8 +67,8 @@ int main(int argc, char **argv, char **envp)
 
 	if (argc != 5)
 		return (0);
-	fd1 = open("outfile.txt",  O_RDONLY);
-	fd2 = open("infile.txt", O_WRONLY | O_CREAT | O_TRUNC);
+	fd1 = open("infile.txt",  O_RDONLY);
+	fd2 = open("outfile.txt", O_WRONLY | O_CREAT | O_TRUNC);
 	if (fd1 < 0 || fd2 < 0)
 		return (-1);
 	pipex(fd1, fd2, argv, envp);

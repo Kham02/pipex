@@ -6,19 +6,19 @@
 #    By: estrong <estrong@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/07 19:06:57 by estrong           #+#    #+#              #
-#    Updated: 2022/01/07 19:28:50 by estrong          ###   ########.fr        #
+#    Updated: 2022/01/12 13:47:38 by estrong          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME	=	pipex
 
-OBJ		=	pipex.c		utils.c
+OBJ		=	pipex.c	utils.c	\
 
 SRCS	=	$(patsubst %.c,%.o,$(OBJ))
 
 HEADER	=	pipex.h
 
-LFT		=	libft/libft.a
+LFT		=	libft
 
 CC		=	gcc
 
@@ -28,17 +28,16 @@ FLAGS	=	-Wall -Wextra -Werror -I$(HEADER)
 
 all :	$(NAME)
 
-$(NAME):	$(OBJ) $(HEADER)
-	@make re -C ./libft
-	$(CC) $(OBJ) $(NAME)
+$(NAME) :
+	$(MAKE) -C ./libft
+	$(CC) -c ${FLAGS} ${OBJ} -I libft/
+	$(CC) ${SRCS} -o ${NAME} libft/libft.a
 
-%.o: %.c $(HEADER)
-	$(CC) $(FLAGS)  -c $< -o $@
+clean :
+	rm -f $(SRCS)
+	make clean -C ./libft
 
-clean :		#@make clean -C $(LFT)
-				rm -rf $(SRCS)
-
-fclean :	#@make fclean -C $(LFT)
-				rm -rf $(NAME)
-
-re :		fclean all
+fclean : clean
+	rm -f $(NAME)
+	make fclean -C ./libft
+re : fclean all
