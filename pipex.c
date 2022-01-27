@@ -51,12 +51,12 @@ void	pipex(char **argv, char **envp)
 		error("fork: ");
 	else										// возвращает 0, если мы находимся в дочернем процессе
 		child1_process(end, argv, envp);
-	waitpid(child1, NULL, 0);
 	child2 = fork();
 	if (child2 < 0)
 		error("fork: ");
 	else
 		child2_process(end, argv, envp);
+	waitpid(child1, NULL, 0);
 	waitpid(child2, NULL, 0);
 	close(end[0]);
 	close(end[1]);
