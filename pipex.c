@@ -21,7 +21,7 @@ static void	child1_process(int *end, char **argv, char **envp)
 		error("open file: ");
 	dup2(end[1], STDOUT_FILENO);
 	dup2(fd1, STDIN_FILENO);
-	close(end[1]);							// закрываем конец канала
+	close(end[0]);							// закрываем конец канала
 	execution(&argv[2], envp);
 }
 
@@ -32,9 +32,9 @@ static void	child2_process(int *end, char **argv, char **envp)
 	fd2 = open(argv[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (fd2 < 0)
 		error("open file: ");
-	dup2(end[0], STDOUT_FILENO);
-	dup2(fd2, STDIN_FILENO);
-	close(end[0]);
+	dup2(end[0], STDIN_FILENO);
+	dup2(fd2, STDOUT_FILENO);
+	close(end[1]);
 	execution(&argv[3], envp);
 }
 
@@ -44,22 +44,21 @@ void	pipex(char **argv, char **envp)
 	pid_t	child1;								//тип данных - целое число со знаком, который способен представить ID процесса.
 	pid_t	child2;
 
-	if (pipe(end) == -1)						// создание канала
-		error("pipe: ");
+	pipe(end);									// создание канала
 	child1 = fork();							// делим процесс на два подпроцесса
 	if (child1 < 0)								// в случае ошибки fork вернет -1
 		error("fork: ");
-	else										// возвращает 0, если мы находимся в дочернем процессе
+	if (child1 == 0)										// возвращает 0, если мы находимся в дочернем процессе
 		child1_process(end, argv, envp);
 	child2 = fork();
 	if (child2 < 0)
 		error("fork: ");
-	else
+	if (child2 == 0)
 		child2_process(end, argv, envp);
-	waitpid(child1, NULL, 0);
-	waitpid(child2, NULL, 0);
 	close(end[0]);
 	close(end[1]);
+	waitpid(child1, NULL, 0);
+	waitpid(child2, NULL, 0);
 }
 
 int main(int argc, char **argv, char **envp)
