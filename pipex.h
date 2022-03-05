@@ -27,5 +27,6 @@ void	pipex(char **argv, char **envp);
 void	execution(char **argv, char **envp);
 char	*paths(char **argv, char **envp);
 void 	error(char *s);
+void	free2arr(char **arr);
 
 #endif
