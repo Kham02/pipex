@@ -18,18 +18,40 @@ void error(char *s)
 	exit(EXIT_FAILURE);						// завершение работы с индикацией ошибки.
 }
 
-void	execution(char **argv, char **envp)
+void	free2arr(char **arr)
 {
-	char	**cmd;
+	int	i;
 
-	cmd = ft_split(*argv, ' ');
-	execve(path(argv, envp), cmd, envp);
+	i = 0;
+	while (arr[i])
+	{
+		free(arr[i]);
+		i++;
+	}
+	free(arr);
 }
 
-char	*path(char **cmd, char **envp)
+void	execution(char *argv, char **envp)
 {
-	char	*pathh;
+	char	**cmd;
+	char	*path;
+	int		i;
+
+	i = 0;
+	cmd = ft_split(argv, ' ');
+	path = paths(cmd, envp);
+	if (!path)
+	{
+		free2arr(cmd);
+		error("path not found");
+	}
+	execve(path, cmd, envp);
+}
+
+char	*paths(char **cmd, char **envp)
+{
 	char	**paths;
+	char	*pathh;
 	char	*path;
 	int		i;		
 
@@ -45,7 +67,9 @@ char	*path(char **cmd, char **envp)
 		free(pathh);
 		if (access(path, F_OK) == 0)
 			return(path);
+		free(path);
 		i++;
 	}
+	free2arr(paths);
 	return (0);
 }

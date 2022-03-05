@@ -16,12 +16,13 @@ static void	child1_process(int *end, char **argv, char **envp)
 {
 	int	fd1;
 
-	fd1 = open(argv[1],  O_RDONLY, 0644);
+	fd1 = open(argv[1],  O_RDONLY);
 	if (fd1 < 0)
 		error("open file: ");
-	dup2(end[1], STDOUT_FILENO);
 	dup2(fd1, STDIN_FILENO);
+	dup2(end[1], STDOUT_FILENO);
 	close(end[0]);							// закрываем конец канала
+	close(fd1);
 	execution(&argv[2], envp);
 }
 
@@ -32,9 +33,10 @@ static void	child2_process(int *end, char **argv, char **envp)
 	fd2 = open(argv[4], O_CREAT | O_RDWR | O_TRUNC, 0644);
 	if (fd2 < 0)
 		error("open file: ");
-	dup2(end[0], STDIN_FILENO);
 	dup2(fd2, STDOUT_FILENO);
+	dup2(end[0], STDIN_FILENO);
 	close(end[1]);
+	close(fd2);
 	execution(&argv[3], envp);
 }
 

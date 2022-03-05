@@ -25,7 +25,7 @@
 int		main(int argc, char **argv, char **envp);
 void	pipex(char **argv, char **envp);
 void	execution(char **argv, char **envp);
-char	*path(char **argv, char **envp);
+char	*paths(char **argv, char **envp);
 void 	error(char *s);
 
 #endif
