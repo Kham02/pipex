@@ -6,7 +6,7 @@
 /*   By: estrong <estrong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 21:08:03 by estrong           #+#    #+#             */
-/*   Updated: 2022/01/19 17:40:38 by estrong          ###   ########.fr       */
+/*   Updated: 2022/03/06 11:21:08 by estrong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	child1_process(int *end, char **argv, char **envp)
 	dup2(end[1], STDOUT_FILENO);
 	close(end[0]);							// закрываем конец канала
 	close(fd1);
-	execution(&argv[2], envp);
+	execution(argv[2], envp);
 }
 
 static void	child2_process(int *end, char **argv, char **envp)
@@ -37,7 +37,7 @@ static void	child2_process(int *end, char **argv, char **envp)
 	dup2(end[0], STDIN_FILENO);
 	close(end[1]);
 	close(fd2);
-	execution(&argv[3], envp);
+	execution(argv[3], envp);
 }
 
 void	pipex(char **argv, char **envp)

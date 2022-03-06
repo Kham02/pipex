@@ -6,7 +6,7 @@
 /*   By: estrong <estrong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 02:23:25 by estrong           #+#    #+#             */
-/*   Updated: 2022/01/19 15:08:34 by estrong          ###   ########.fr       */
+/*   Updated: 2022/03/06 11:41:56 by estrong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,10 @@ char	*paths(char **cmd, char **envp)
 	char	**paths;
 	char	*pathh;
 	char	*path;
-	int		i;		
+	int		i;
 
 	i = 0;
+	path = ft_strdup("");
 	while (ft_strnstr(envp[i], "PATH", 4) == 0)
 		i++;
 	paths = ft_split(envp[i] + 5, ':');
