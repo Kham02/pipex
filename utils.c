@@ -6,16 +6,16 @@
 /*   By: estrong <estrong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 02:23:25 by estrong           #+#    #+#             */
-/*   Updated: 2022/03/06 11:41:56 by estrong          ###   ########.fr       */
+/*   Updated: 2022/03/06 14:44:20 by estrong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void error(char *s)
+void	error(char *s)
 {
 	return (perror(s));
-	exit(EXIT_FAILURE);						// завершение работы с индикацией ошибки.
+	exit(EXIT_FAILURE);
 }
 
 void	free2arr(char **arr)
@@ -67,7 +67,7 @@ char	*paths(char **cmd, char **envp)
 		path = ft_strjoin(path, *cmd);
 		free(pathh);
 		if (access(path, F_OK) == 0)
-			return(path);
+			return (path);
 		free(path);
 		i++;
 	}

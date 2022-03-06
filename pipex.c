@@ -6,7 +6,7 @@
 /*   By: estrong <estrong@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/10 21:08:03 by estrong           #+#    #+#             */
-/*   Updated: 2022/03/06 11:21:08 by estrong          ###   ########.fr       */
+/*   Updated: 2022/03/06 14:43:04 by estrong          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,12 @@ static void	child1_process(int *end, char **argv, char **envp)
 {
 	int	fd1;
 
-	fd1 = open(argv[1],  O_RDONLY);
+	fd1 = open(argv[1], O_RDONLY);
 	if (fd1 < 0)
 		error("open file: ");
 	dup2(fd1, STDIN_FILENO);
 	dup2(end[1], STDOUT_FILENO);
-	close(end[0]);							// закрываем конец канала
+	close(end[0]);
 	close(fd1);
 	execution(argv[2], envp);
 }
@@ -43,14 +43,14 @@ static void	child2_process(int *end, char **argv, char **envp)
 void	pipex(char **argv, char **envp)
 {
 	int		end[2];
-	pid_t	child1;								//тип данных - целое число со знаком, который способен представить ID процесса.
+	pid_t	child1;
 	pid_t	child2;
 
-	pipe(end);									// создание канала
-	child1 = fork();							// делим процесс на два подпроцесса
-	if (child1 < 0)								// в случае ошибки fork вернет -1
+	pipe(end);
+	child1 = fork();
+	if (child1 < 0)
 		error("fork: ");
-	if (child1 == 0)										// возвращает 0, если мы находимся в дочернем процессе
+	if (child1 == 0)
 		child1_process(end, argv, envp);
 	child2 = fork();
 	if (child2 < 0)
@@ -63,10 +63,10 @@ void	pipex(char **argv, char **envp)
 	waitpid(child2, NULL, 0);
 }
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	if (argc != 5)
 		return (0);
 	pipex(argv, envp);
-	return(0);
+	return (0);
 }
