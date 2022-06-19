@@ -40,9 +40,9 @@ void	error(char *s);
 int		ft_strcmp(const char *s1, const char *s2);
 void	get_path(t_all *all, char **envp);
 void	open_fl(int ac, char **av, t_all *all);
-void	write_var(int fc, char **av, t_all *all);
+void	write_var(int ac, char **av, t_all *all);
 void	read_lim(char *limit, t_all *all);
 void	pars_cmd(char **av, t_all *all);
-void	forks(int i, char **av, t_all *all);
+void	forks(int i, char **av, char **envp, t_all *all);
 
 #endif

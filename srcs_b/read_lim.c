@@ -12,7 +12,7 @@ void	read_lim(char *limit, t_all *all)
 	str = NULL;
 	while (ft_strcmp(str, lim))
 	{
-		if (line)
+		if (str)
 			free(str);
 		str = get_next_line(0, 1);
 		if (!str)

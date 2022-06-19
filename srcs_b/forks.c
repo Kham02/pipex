@@ -57,7 +57,7 @@ static void	child_pr(int i, char **envp, t_all *all)
 	execute_cmd(all->cmd[i].cmd, envp);
 }
 
-void	forks(int i, char **av, t_all *all)
+void	forks(int i, char **av, char **envp, t_all *all)
 {
 	all->child = fork();
 	if (all->child < 0)

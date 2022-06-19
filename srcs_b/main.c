@@ -6,7 +6,7 @@ void	error(char *s)
 	exit(EXIT_FAILURE);
 }
 
-int	main(int argc, char **argv, char **envp)
+int	main(int ac, char **av, char **envp)
 {
 	t_all	all;
 	int		i;
@@ -20,7 +20,7 @@ int	main(int argc, char **argv, char **envp)
 		read_lim(av[2], &all);
 	pars_cmd(av, &all);
 	while (i++ < all.count_cmd)
-		forks(i, envp, &all);
+		forks(i, av, envp, &all);
 	while (i--)
 		wait(NULL);
 	if (all.open_st == 1)

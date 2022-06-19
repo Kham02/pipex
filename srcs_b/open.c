@@ -1,6 +1,6 @@
 #include "pipex_bonus.h"
 
-void	write_var(int фc, char **av, t_all *all)
+void	write_var(int ac, char **av, t_all *all)
 {
 	all->ac = ac;
 	all->count_cmd = ac - 3;
@@ -21,7 +21,7 @@ void	write_var(int фc, char **av, t_all *all)
 		error("Error: malloc\n")
 }
 
-void	open_fl(int fc, char **av, t_all *all)
+void	open_fl(int ac, char **av, t_all *all)
 {
 	write_var(ac, av, all);
 	if (!all->open_st)
@@ -29,7 +29,7 @@ void	open_fl(int fc, char **av, t_all *all)
 		all->cmd[0].in_fl = open(av[1], O_RDONLY);
 		if (all->cmd[0].in_fl < 0)
 			error(NULL);
-		all->cmd[all->count_cmd - 1].out = open(av[all->ac - 1], O_CREAT | O_RDWR | O_TRUNC, 0644);
+		all->cmd[all->count_cmd - 1].out_fl = open(av[all->ac - 1], O_CREAT | O_RDWR | O_TRUNC, 0644);
 	}
 	else
 	{
@@ -42,7 +42,7 @@ void	open_fl(int fc, char **av, t_all *all)
 		}
 		if (all->cmd[0].in_fl < 0)
 			error(NULL);
-		all->cmd[all->count_cmd - 1].out = open(av[all->ac - 1], O_CREAT | O_RDWR | O_TRUNC, 0644);
+		all->cmd[all->count_cmd - 1].out_fl = open(av[all->ac - 1], O_CREAT | O_RDWR | O_TRUNC, 0644);
 	}
 	if (all->cmd[0].out_fl < 0)
 		error(NULL);
